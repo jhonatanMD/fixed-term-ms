@@ -23,7 +23,8 @@ public class FixedTermEntity {
 	@JsonFormat(pattern = "yyyy-MM-dd", shape = Shape.STRING)
 	private Date dateRet;
 	
-	private CustomerEntity customer;
+	private String profile;
+	private List<EntityTransaction> transactions;
 	private List<HeadLineEntity> heads;
 	private List<SignatoriesEntity> sigs;
 	public String getIdFix() {
@@ -67,12 +68,18 @@ public class FixedTermEntity {
 	public void setDateRet(Date dateRet) {
 		this.dateRet = dateRet;
 	}
-	
-	public CustomerEntity getCustomer() {
-		return customer;
+		
+	public String getProfile() {
+		return profile;
 	}
-	public void setCustomer(CustomerEntity customer) {
-		this.customer = customer;
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
+	public List<EntityTransaction> getTransactions() {
+		return transactions;
+	}
+	public void setTransactions(List<EntityTransaction> transactions) {
+		this.transactions = transactions;
 	}
 	public List<HeadLineEntity> getHeads() {
 		return heads;

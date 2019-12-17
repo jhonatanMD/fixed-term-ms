@@ -1,7 +1,5 @@
 package com.fixed.term.controller;
 
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fixed.term.model.FixedTermEntity;
-import com.fixed.term.service.FixedServiceImpl;
+import com.fixed.term.service.IFixedService;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -22,7 +20,7 @@ import reactor.core.publisher.Mono;
 @RequestMapping("api")
 public class RestControllerFixed {
 	@Autowired
-	FixedServiceImpl imple;
+	IFixedService imple;
 	
 	
 	@GetMapping("/getFixeds")
@@ -30,17 +28,18 @@ public class RestControllerFixed {
 		return imple.allFixed();
 	}
 	
-	@GetMapping("/getFixedDni/{dni}")
-	public Mono<FixedTermEntity> getFixedDni(@PathVariable("dni") String dni){
-		return imple.fixedByDni(dni);
+	@GetMapping("/getFixedNumAcc/{numAcc}")
+	public Mono<FixedTermEntity> getFixedDni(@PathVariable("numAcc") String numAcc){
+		return imple.fixedByNumAcc(numAcc);
+	}
+	
+	@GetMapping("/getFixedNumDoc/{numDoc}")
+	public Mono<FixedTermEntity> getFixedNumDoc(@PathVariable("numDoc") String numDoc){
+		return imple.findByDoc(numDoc);
 	}
 
 	@PostMapping("/postFixed")
 	public Mono<FixedTermEntity> postFixed(@RequestBody final FixedTermEntity fixed){
-		Date dt = new Date();
-		fixed.setDateReg(dt);
-		
-
 		return imple.saveFixed(fixed);
 	}
 	
@@ -58,19 +57,10 @@ public class RestControllerFixed {
 	}
 	
 	
-	@PostMapping("/updTransancionesFixed/{dni}/{tipo}/{cash}")
-	Mono<FixedTermEntity> updTransanciones(@PathVariable("dni") String dni 
+	@PostMapping("/updTransancionesFixed/{numAcc}/{tipo}/{cash}")
+	Mono<FixedTermEntity> updTransanciones(@PathVariable("numAcc") String numAcc 
 			,@PathVariable("tipo") String tipo ,@PathVariable("cash")  Double cash){
-			return imple.fixedByDni(dni)
-					.flatMap(p ->{
-						if(tipo.equals("r") && p.getCash() >= cash) {
-							p.setCash(p.getCash() - cash);
-						}else if (tipo.equals("d")){
-							p.setCash( p.getCash() + cash);
-						}
-				return imple.updFixed(p);
-				});
-
+			return imple.transactionFixed(numAcc, tipo, cash);
 	}
 	
 	

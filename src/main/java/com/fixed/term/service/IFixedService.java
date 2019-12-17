@@ -11,5 +11,8 @@ public interface IFixedService {
 	Mono<FixedTermEntity> saveFixed(final FixedTermEntity fixed);
 	Mono<FixedTermEntity> updFixed(final FixedTermEntity fixed);
 	Mono<Void> dltFixed(String id);
-	Mono<FixedTermEntity> fixedByDni(final String dniCl);
+	Mono<FixedTermEntity> fixedByNumAcc(final String numAcc);
+	Mono<FixedTermEntity> transactionFixed(String numAcc,String tipo,Double cash);
+	
+	Mono<FixedTermEntity> findByDoc(String numDoc);
 }
