@@ -21,6 +21,7 @@ public class EntityTransaction {
 	@NotEmpty(message = "should not be empty")
 	private String type;
 	
+	private Double commi;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = Shape.STRING)
 	@NotNull
 	private Date dateTra;
@@ -62,6 +63,14 @@ public class EntityTransaction {
 
 	
 	
+	public Double getCommi() {
+		return commi;
+	}
+
+	public void setCommi(Double commi) {
+		this.commi = commi;
+	}
+
 	public Date getDateTra() {
 		return dateTra;
 	}

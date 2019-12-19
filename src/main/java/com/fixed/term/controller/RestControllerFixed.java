@@ -34,7 +34,7 @@ public class RestControllerFixed {
 	}
 	
 	@GetMapping("/getFixedNumDoc/{numDoc}")
-	public Mono<FixedTermEntity> getFixedNumDoc(@PathVariable("numDoc") String numDoc){
+	public Flux<FixedTermEntity> getFixedNumDoc(@PathVariable("numDoc") String numDoc){
 		return imple.findByDoc(numDoc);
 	}
 

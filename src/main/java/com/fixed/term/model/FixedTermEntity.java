@@ -15,7 +15,6 @@ public class FixedTermEntity {
 	@Id
 	private String idFix;
 	private String numAcc;
-	private String dniCli;
 	private Double cash;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = Shape.STRING)
@@ -24,6 +23,16 @@ public class FixedTermEntity {
 	private Date dateRet;
 	
 	private String profile;
+	
+	private Double cashEndMonth;
+	
+	private int numTran;
+	
+	private Double commi;
+	
+	private String status;
+	
+	
 	private List<EntityTransaction> transactions;
 	private List<HeadLineEntity> heads;
 	private List<SignatoriesEntity> sigs;
@@ -40,14 +49,7 @@ public class FixedTermEntity {
 	public void setNumAcc(String numAcc) {
 		this.numAcc = numAcc;
 	}
-	public String getDniCli() {
-		return dniCli;
-	}
-	public void setDniCli(String dniCli) {
-		this.dniCli = dniCli;
-	}
-	
-	
+
 	public Double getCash() {
 		return cash;
 	}
@@ -74,6 +76,32 @@ public class FixedTermEntity {
 	}
 	public void setProfile(String profile) {
 		this.profile = profile;
+	}
+	
+	
+	public Double getCashEndMonth() {
+		return cashEndMonth;
+	}
+	public void setCashEndMonth(Double cashEndMonth) {
+		this.cashEndMonth = cashEndMonth;
+	}
+	public int getNumTran() {
+		return numTran;
+	}
+	public void setNumTran(int numTran) {
+		this.numTran = numTran;
+	}
+	public Double getCommi() {
+		return commi;
+	}
+	public void setCommi(Double commi) {
+		this.commi = commi;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	public List<EntityTransaction> getTransactions() {
 		return transactions;

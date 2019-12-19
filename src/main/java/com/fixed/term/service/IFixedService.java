@@ -14,5 +14,5 @@ public interface IFixedService {
 	Mono<FixedTermEntity> fixedByNumAcc(final String numAcc);
 	Mono<FixedTermEntity> transactionFixed(String numAcc,String tipo,Double cash);
 	
-	Mono<FixedTermEntity> findByDoc(String numDoc);
+	Flux<FixedTermEntity> findByDoc(String numDoc);
 }

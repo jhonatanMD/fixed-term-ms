@@ -16,11 +16,11 @@ public interface IFixedRepository  extends ReactiveMongoRepository<FixedTermEnti
 
 Mono<FixedTermEntity> findByNumAcc(String numAcc);
 
-@Query("{ 'heads.dniH': {$in:[ ?0 ]} }")
-Flux<FixedTermEntity> findBytitularesByDoc(List<String> doc);
+@Query("{ 'heads.dniH': {$in:[ ?0 ]} , 'profile':?1 }")
+Flux<FixedTermEntity> findBytitularesByDoc(List<String> doc ,String profile);
 
 @Query("{'heads.dniH':  ?0 } ")
-Mono<FixedTermEntity> findByDoc(String doc);
+Flux<FixedTermEntity> findByDoc(String doc);
 
 
 }

@@ -23,6 +23,7 @@ public class FixedServiceImpl implements IFixedService {
 	List<EntityTransaction> listTransaction;
 	List<String> doc;
 	Date dt = new Date();
+	Boolean ope = false;
 	@Override
 	public Flux<FixedTermEntity> allFixed() {
 		// TODO Auto-generated method stub
@@ -35,7 +36,7 @@ public class FixedServiceImpl implements IFixedService {
 		doc = new ArrayList<>();
 		fixed.setDateReg(dt);
 		fixed.getHeads().forEach(head -> doc.add(head.getDniH()));
-		return repository.findBytitularesByDoc(doc)
+		return repository.findBytitularesByDoc(doc,fixed.getProfile())
 				.switchIfEmpty(repository.save(fixed).flatMap(sv->{
 			return Mono.just(sv);
 		})).next();
@@ -65,40 +66,62 @@ public class FixedServiceImpl implements IFixedService {
 		
 		return  repository.findByNumAcc(numAcc)
 				.flatMap(p ->{
-					transaction = new EntityTransaction();
-					 transaction.setCashA(p.getCash());
-				//	String dFecha = new SimpleDateFormat("yyyy-MM-dd").format(dt);
-				//	try {
-					// Date fechaR = new SimpleDateFormat().parse(dFecha);
-					 if(tipo.equals("r") && p.getCash() >= cash) {
-						p.setCash(p.getCash() - cash);
-					}else if (tipo.equals("d")){
-						p.setCash( p.getCash() + cash);
-					}
-					//}catch (Exception e) {
-				//		System.out.println(e.getMessage());
-					//}
+					//	Collections.sort(p.getTransactions(),Collections.reverseOrder());
+						transaction = new EntityTransaction();
+						listTransaction = new ArrayList<>();
+						transaction.setCashA(p.getCash());
+										
+							if(p.getNumTran() > 0) {
+								p.setNumTran(p.getNumTran() -1);
+								transaction.setCommi(0.0);
+								if(tipo.equals("r") && p.getCash() >= cash) {
+									ope = true;
+									p.setCash(p.getCash() - cash);
+								}else if (tipo.equals("d")){
+									ope = true;
+									p.setCash( p.getCash() + cash);
+								}
+							}else {
+								
+								if(tipo.equals("r") && p.getCash() >= cash + p.getCommi()) {
+									ope = true;
+									p.setCash(p.getCash() - cash - p.getCommi());
+									transaction.setCommi(p.getCommi());
+								}else if (tipo.equals("d")){
+									if(p.getCash() != 0.0) {
+										ope = true;
+										p.setCash( p.getCash() + cash - p.getCommi());
+									}
+								}
+								
+							}
+						
 					
-					transaction.setType(tipo);
-					 transaction.setCashO(cash);
-					 transaction.setCashT(p.getCash());
-					 transaction.setDateTra(dt);
-					listTransaction = new ArrayList<>();
-					if(p.getTransactions() != null) {
+					if(ope) {
+						transaction.setType(tipo);
+						transaction.setCashO(cash);
+						transaction.setCashT(p.getCash());
+						transaction.setDateTra(dt);
+						
+						if(p.getTransactions() != null) {
 						p.getTransactions().forEach(transac-> {
 							listTransaction.add(transac);
-						});
+							});
+						}
+						listTransaction.add(transaction);
+						p.setTransactions(listTransaction);
+						return repository.save(p);
+					}else {
+						
+						return Mono.just(p);
 					}
-					
-					listTransaction.add(transaction);
-					p.setTransactions(listTransaction);
-			return repository.save(p);
-			});
+						
+				});
 
 	}
 
 	@Override
-	public Mono<FixedTermEntity> findByDoc(String numDoc) {
+	public Flux<FixedTermEntity> findByDoc(String numDoc) {
 		// TODO Auto-generated method stub
 		return repository.findByDoc(numDoc);
 	}
