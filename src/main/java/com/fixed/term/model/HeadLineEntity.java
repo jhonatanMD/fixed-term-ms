@@ -3,20 +3,11 @@ package com.fixed.term.model;
 
 public class HeadLineEntity {
 
-	private String idSav;
 	private String namH;
 	private String lastNamH;
 	private String dniH;
 	
 
-	
-
-	public String getIdSav() {
-		return idSav;
-	}
-	public void setIdSav(String idSav) {
-		this.idSav = idSav;
-	}
 	public String getNamH() {
 		return namH;
 	}

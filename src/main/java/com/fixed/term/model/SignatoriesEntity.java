@@ -1,17 +1,11 @@
 package com.fixed.term.model;
 
 public class SignatoriesEntity {
-	
-	private String id;
+
 	private String nam;
 	private String lastNameS;
 	private String dniSig;
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
+
 	public String getNam() {
 		return nam;
 	}

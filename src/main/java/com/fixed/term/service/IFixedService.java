@@ -1,5 +1,6 @@
 package com.fixed.term.service;
 
+import com.fixed.term.model.EntityTransaction;
 import com.fixed.term.model.FixedTermEntity;
 
 import reactor.core.publisher.Flux;
@@ -12,7 +13,7 @@ public interface IFixedService {
 	Mono<FixedTermEntity> updFixed(final FixedTermEntity fixed);
 	Mono<Void> dltFixed(String id);
 	Mono<FixedTermEntity> fixedByNumAcc(final String numAcc);
-	Mono<FixedTermEntity> transactionFixed(String numAcc,String tipo,Double cash);
-	
+	Mono<EntityTransaction> transactionFixed(String numAcc,String tipo,Double cash);
+
 	Flux<FixedTermEntity> findByDoc(String numDoc);
 }

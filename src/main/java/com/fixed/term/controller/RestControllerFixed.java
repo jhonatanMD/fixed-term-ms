@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fixed.term.model.EntityTransaction;
 import com.fixed.term.model.FixedTermEntity;
 import com.fixed.term.service.IFixedService;
 
@@ -58,7 +59,7 @@ public class RestControllerFixed {
 	
 	
 	@PostMapping("/updTransancionesFixed/{numAcc}/{tipo}/{cash}")
-	Mono<FixedTermEntity> updTransanciones(@PathVariable("numAcc") String numAcc 
+	Mono<EntityTransaction> updTransanciones(@PathVariable("numAcc") String numAcc 
 			,@PathVariable("tipo") String tipo ,@PathVariable("cash")  Double cash){
 			return imple.transactionFixed(numAcc, tipo, cash);
 	}

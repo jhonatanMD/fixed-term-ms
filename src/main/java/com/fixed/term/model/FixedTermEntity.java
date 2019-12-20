@@ -16,6 +16,7 @@ public class FixedTermEntity {
 	private String idFix;
 	private String numAcc;
 	private Double cash;
+	private Double cashLoan;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = Shape.STRING)
 	private Date dateReg;
@@ -28,7 +29,6 @@ public class FixedTermEntity {
 	
 	private int numTran;
 	
-	private Double commi;
 	
 	private String status;
 	
@@ -55,6 +55,13 @@ public class FixedTermEntity {
 	}
 	public void setCash(Double cash) {
 		this.cash = cash;
+	}
+	
+	public Double getCashLoan() {
+		return cashLoan;
+	}
+	public void setCashLoan(Double cashLoan) {
+		this.cashLoan = cashLoan;
 	}
 	public Date getDateReg() {
 		return dateReg;
@@ -90,12 +97,6 @@ public class FixedTermEntity {
 	}
 	public void setNumTran(int numTran) {
 		this.numTran = numTran;
-	}
-	public Double getCommi() {
-		return commi;
-	}
-	public void setCommi(Double commi) {
-		this.commi = commi;
 	}
 	public String getStatus() {
 		return status;
