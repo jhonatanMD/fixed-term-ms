@@ -1,5 +1,7 @@
 package com.fixed.term.controller;
 
+import java.text.ParseException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +29,12 @@ public class RestControllerFixed {
 	@GetMapping("/getFixeds")
 	public Flux<FixedTermEntity> getFixeds(){
 		return imple.allFixed();
+	}
+	
+	@GetMapping("/getFixedDates/{dt1}/{dt2}/{bank}")
+	Flux<FixedTermEntity> getFixedDates(@PathVariable("dt1") String dt1
+			,@PathVariable("dt2") String dt2,@PathVariable("bank") String bank) throws ParseException{	
+		return imple.findByBankAndDateOpenBetween(bank, dt1, dt2);
 	}
 	
 	@GetMapping("/getFixedNumAcc/{numAcc}")

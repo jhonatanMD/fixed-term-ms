@@ -1,5 +1,6 @@
 package com.fixed.term.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.Query;
@@ -22,6 +23,7 @@ Flux<FixedTermEntity> findBytitularesByDoc(List<String> doc ,String profile);
 @Query("{'heads.dniH':  ?0 } ")
 Flux<FixedTermEntity> findByDoc(String doc);
 
+Flux<FixedTermEntity> findByBankAndDateRegBetween(String bank,Date dt1 ,Date dt2);
 
 }
 

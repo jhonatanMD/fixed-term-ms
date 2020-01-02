@@ -23,6 +23,7 @@ public class FixedTermEntity {
 	@JsonFormat(pattern = "yyyy-MM-dd", shape = Shape.STRING)
 	private Date dateRet;
 	
+	private String bank;
 	private String profile;
 	
 	private Double cashEndMonth;
@@ -77,7 +78,13 @@ public class FixedTermEntity {
 	public void setDateRet(Date dateRet) {
 		this.dateRet = dateRet;
 	}
-		
+	
+	public String getBank() {
+		return bank;
+	}
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
 	public String getProfile() {
 		return profile;
 	}

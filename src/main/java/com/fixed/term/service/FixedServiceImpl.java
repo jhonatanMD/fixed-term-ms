@@ -1,15 +1,19 @@
 package com.fixed.term.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.fixed.term.model.EntityTransaction;
 import com.fixed.term.model.FixedTermEntity;
 import com.fixed.term.repository.IFixedRepository;
+import com.fixed.term.webclient.CallWebClient;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -19,8 +23,14 @@ public class FixedServiceImpl implements IFixedService {
 
 	@Autowired
 	IFixedRepository repository;
+	
+	@Autowired
+	@Qualifier("webClient")
+	CallWebClient client;
+	
 	EntityTransaction transaction;
 	List<String> doc;
+	SimpleDateFormat format;
 	Boolean ope = false;
 	
 	@Override
@@ -36,10 +46,19 @@ public class FixedServiceImpl implements IFixedService {
 		fixed.setDateReg(new Date());
 		fixed.setCash(fixed.getCashLoan());
 		fixed.getHeads().forEach(head -> doc.add(head.getDniH()));
-		return repository.findBytitularesByDoc(doc,fixed.getProfile())
-				.switchIfEmpty(repository.save(fixed).flatMap(sv->{
-			return Mono.just(sv);
-		})).next();
+		
+	/*	return client.responde(doc).flatMap(res -> {
+			if(res.getMsg().equals("")) {*/
+				return repository.findBytitularesByDoc(doc,fixed.getProfile())
+						.switchIfEmpty(repository.save(fixed).flatMap(sv->{
+					return Mono.just(sv);
+				})).next();
+				
+		/*	}
+			return Mono.empty();
+		});*/
+		
+		
 	}
 
 	@Override
@@ -98,6 +117,14 @@ public class FixedServiceImpl implements IFixedService {
 	public Flux<FixedTermEntity> findByDoc(String numDoc) {
 		// TODO Auto-generated method stub
 		return repository.findByDoc(numDoc);
+	}
+
+	@Override
+	public Flux<FixedTermEntity> findByBankAndDateOpenBetween(String bank, String dt1, String dt2)
+			throws ParseException {
+		// TODO Auto-generated method stub
+		format = new SimpleDateFormat("yyyy-MM-dd");
+		return repository.findByBankAndDateRegBetween(bank, format.parse(dt1), format.parse(dt2));
 	}
 
 }
